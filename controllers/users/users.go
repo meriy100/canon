@@ -4,6 +4,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
 	dbC "github.com/meriy100/canon/db"
+	"github.com/meriy100/canon/models"
 	"net/http"
 	"strconv"
 )
@@ -12,7 +13,7 @@ func Index(c echo.Context) error {
 	db := dbC.GormConnect()
 	defer db.Close()
 
-	users := []dbC.User{}
+	users := []models.User{}
 	if err := db.Limit(10).Find(&users).Error; err != nil {
 		return err
 	}
@@ -24,7 +25,7 @@ func Show(c echo.Context) error {
 	defer db.Close()
 
 	id, _ := strconv.Atoi(c.Param("id"))
-	user := dbC.User{}
+	user := models.User{}
 	user.ID = uint(id)
 	if err := db.Find(&user).Error; err != nil {
 		if gorm.IsRecordNotFoundError(err) {
@@ -41,7 +42,7 @@ func Create(c echo.Context) error {
 	db := dbC.GormConnect()
 	defer db.Close()
 
-	u := new(dbC.User)
+	u := new(models.User)
 	if err := c.Bind(u); err != nil {
 		return err
 	}
