@@ -1,0 +1,9 @@
+development:
+  dbms: postgres
+  user: canon_user
+  pass: password
+  host: localhost
+  dbname: canon
+  sslmode: disable
+  port: 5432
+
