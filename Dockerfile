@@ -5,6 +5,8 @@ ENV GOOS=linux
 ENV GOARCH=amd64
 WORKDIR /go/src/github.com/meriy100/canon
 COPY . .
+RUN go get -u github.com/golang/dep/cmd/dep
+RUN dep ensure
 RUN go build server.go
 
 FROM alpine
