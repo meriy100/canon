@@ -1,7 +1,11 @@
-addons:
-  - plan: heroku-postgresql
-    as: DATABASEbuild:
-docker:
-  web: Dockerfile
+  addons:
+    - plan: heroku-postgresql
+      as: DATABASE
+build:
+  docker:
+    web: Dockerfile
+release:
+  image: web
+  command: /app/server migrate
 run:
   web: /app/server
