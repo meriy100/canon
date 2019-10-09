@@ -1,14 +1,9 @@
 version: 2.0
 jobs:
   deploy_prod:
-    docker:
-      - image: circleci/golang:1.13.1
-        environment:
+    machine: true
     steps:
       - checkout
-      - run:
-          name: build docker image
-          command: docker build . -t canon
       - run:
           name: install Heroku CLI, if necessary
           command: curl https://cli-assets.heroku.com/install.sh | sh
