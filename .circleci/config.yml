@@ -33,3 +33,4 @@ workflows:
             branches:
               only:
                 - master
+                - ciDeploy
