@@ -1,5 +1,7 @@
-build:
-  docker:
-    web: Dockerfile
+addons:
+  - plan: heroku-postgresql
+    as: DATABASEbuild:
+docker:
+  web: Dockerfile
 run:
   web: /app/server
