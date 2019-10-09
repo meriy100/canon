@@ -6,32 +6,8 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/meriy100/canon/db"
 )
-type User struct {
-	Id int `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
-}
-
-func gormConnect() *gorm.DB {
-	DBMS     := "postgres"
-	USER     := "canon_user"
-	PASS     := "password"
-	HOST     := "localhost"
-	//PORT := ""
-	DBNAME   := "canon"
-
-	//CONNECT := "host=" + HOST + " port=" + PORT + " user=" + USER + "password=" + PASS + " dbname=" + DBNAME
-	CONNECT := "host=" + HOST + " user=" + USER + " password=" + PASS + " dbname=" + DBNAME + " sslmode=disable"
-	db,err := gorm.Open(DBMS, CONNECT)
-
-	if err != nil {
-		panic(err.Error())
-	}
-	return db
-}
 
 func getUser(c echo.Context) error {
 	id := c.Param("id")
@@ -45,7 +21,7 @@ func show(c echo.Context) error {
 }
 
 func save(c echo.Context) error {
-	u := new(User)
+	u := new(db.User)
 	if err := c.Bind(u); err != nil {
 		return err
 	}
@@ -62,8 +38,7 @@ func port() int {
 }
 
 func main() {
-	db := gormConnect()
-	db.AutoMigrate(&User{})
+	db := db.GormConnect()
 	port := port()
 	e := echo.New()
 	e.GET("/", func(c echo.Context) error {
