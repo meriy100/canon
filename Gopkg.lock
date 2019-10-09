@@ -2,6 +2,14 @@
 
 
 [[projects]]
+  digest = "1:320e7ead93de9fd2b0e59b50fd92a4d50c1f8ab455d96bc2eb083267453a9709"
+  name = "github.com/asaskevich/govalidator"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "ccb8e960c48f04d6935e72476ae4a51028f9e22f"
+  version = "v9"
+
+[[projects]]
   digest = "1:59f10c1537d2199d9115d946927fe31165959a95190849c82ff11e05803528b0"
   name = "github.com/go-yaml/yaml"
   packages = ["."]
@@ -75,6 +83,14 @@
   pruneopts = "UT"
   revision = "88ba11cfdc67c7588b30042edf244b2875f892b6"
   version = "v0.0.10"
+
+[[projects]]
+  digest = "1:85cb5adb402858878704bc087b8f74fb12d1e56bddbba38e3d94693a14ad93f4"
+  name = "github.com/qor/validations"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "f364bca61b46bd48a5e32552a37758864fdf005d"
+  version = "v1.1"
 
 [[projects]]
   digest = "1:c468422f334a6b46a19448ad59aaffdfc0a36b08fdcc1c749a0b29b6453d7e59"
@@ -152,6 +168,7 @@
     "github.com/jinzhu/gorm",
     "github.com/jinzhu/gorm/dialects/postgres",
     "github.com/labstack/echo",
+    "github.com/qor/validations",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
