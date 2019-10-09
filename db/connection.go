@@ -73,6 +73,8 @@ type User struct {
 func DropTables() {
 	db := GormConnect()
 	db.DropTableIfExists("users")
+
+	defer db.Close()
 }
 
 
@@ -80,4 +82,5 @@ func DropTables() {
 func Migration() {
 	db := GormConnect()
 	db.AutoMigrate(&User{})
+	defer db.Close()
 }
