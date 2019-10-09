@@ -14,7 +14,7 @@ type User struct {
 
 func getUser(c echo.Context) error {
 	id := c.Param("id")
-	return c.String(http.StatusOK, "This users id is " + id)
+	return c.String(http.StatusOK, "★This users id is " + id)
 }
 
 func show(c echo.Context) error {
