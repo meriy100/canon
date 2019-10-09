@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	//"github.com/jinzhu/gorm"
 )
 type User struct {
 	Name  string `json:"name" xml:"name" form:"name" query:"name"`
