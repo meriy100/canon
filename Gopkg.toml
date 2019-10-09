@@ -32,3 +32,11 @@
 [[constraint]]
   name = "github.com/labstack/echo"
   version = "4.1.11"
+
+[[constraint]]
+  name = "github.com/jinzhu/gorm"
+  version = "1.9.11"
+
+[[constraint]]
+  name = "github.com/go-yaml/yaml"
+  version = "2.2.4"
