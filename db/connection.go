@@ -31,8 +31,14 @@ type User struct {
 	Email string `json:"email"`
 }
 
-func migration() {
+func DropTables() {
+	db := GormConnect()
+	db.DropTableIfExists("users")
+}
+
+
+
+func Migration() {
 	db := GormConnect()
 	db.AutoMigrate(&User{})
 }
-

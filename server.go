@@ -37,7 +37,7 @@ func port() int {
 	return 1323
 }
 
-func main() {
+func runServer() {
 	db := db.GormConnect()
 	port := port()
 	e := echo.New()
@@ -50,4 +50,18 @@ func main() {
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))
 
 	defer db.Close()
+}
+
+func main() {
+	if len(os.Args) > 1 {
+		command := os.Args[1]
+		switch command {
+		case "migrate": db.Migration()
+		case "drop": db.DropTables()
+		default: runServer()
+		}
+	} else {
+		runServer()
+	}
+
 }
