@@ -11,5 +11,5 @@ RUN go build server.go
 
 FROM alpine
 COPY --from=builder /go/src/github.com/meriy100/canon /app
-
+ENV PORT=${PORT}
 CMD /app/server $PORT
