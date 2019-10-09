@@ -32,8 +32,9 @@ func save(c echo.Context) error {
 }
 
 func port() int {
-	if (len(os.Args) > 1) {
-		port, _ := strconv.Atoi(os.Args[1])
+	fmt.Println(os.Getenv("PORT"))
+	if (os.Getenv("PORT") != "") {
+		port, _ := strconv.Atoi(os.Getenv("PORT"))
 		return port
 	}
 	return 1323
