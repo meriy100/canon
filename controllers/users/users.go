@@ -1,6 +1,7 @@
 package users
 
 import (
+	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
 	dbC "github.com/meriy100/canon/db"
 	"net/http"
@@ -12,8 +13,10 @@ func Index(c echo.Context) error {
 	defer db.Close()
 
 	users := []dbC.User{}
-	db.Limit(10).Find(&users)
-	return c.JSON(http.StatusCreated, users)
+	if err := db.Limit(10).Find(&users).Error; err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, users)
 }
 
 func Show(c echo.Context) error {
@@ -23,7 +26,12 @@ func Show(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	user := dbC.User{}
 	user.ID = uint(id)
-	db.Find(&user)
+	if err := db.Find(&user).Error; err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			return echo.NewHTTPError(http.StatusNotFound, "not found")
+		}
+		return err
+	}
 
 	return c.JSON(http.StatusOK, user)
 }
@@ -37,7 +45,11 @@ func Create(c echo.Context) error {
 	if err := c.Bind(u); err != nil {
 		return err
 	}
-	db.Create(&u)
+	if err := db.Create(&u).Error; err != nil {
+		return err
+		//errorResponse := ErrorResponse{"Internal Server Error"}
+		//return c.JSON(http.StatusInternalServerError, errorResponse)
+	}
 	return c.JSON(http.StatusOK, u)
 }
 
