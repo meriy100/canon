@@ -1,0 +1,35 @@
+version: 2.0
+jobs:
+  deploy_prod:
+    docker:
+      - image: circleci/go:1.13.1
+        environment:
+    steps:
+      - checkout
+      - run:
+          name: install Heroku CLI, if necessary
+          command: curl https://cli-assets.heroku.com/install.sh | sh
+      - run:
+          name: heroku maintenance on
+          command: heroku maintenance:on --app ${HEROKU_APP_NAME_PROD}
+      - run:
+          name: deploy to heroku_production
+          command: |
+            docker login --username=_ --password=${HEROKU_API_KEY} registry.heroku.com
+            heroku container:push web --app ${HEROKU_APP_NAME_PROD}
+      - run:
+          name: release app
+          command: heroku container:release web --app ${HEROKU_APP_NAME_PROD}
+      - run:
+          name: heroku maintenance off
+          command: heroku maintenance:off --app ${HEROKU_APP_NAME_PROD}
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - deploy_prod:
+          filters:
+            branches:
+              only:
+                - master
