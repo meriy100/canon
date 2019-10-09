@@ -20,11 +20,20 @@ func show(c echo.Context) error {
 	return c.String(http.StatusOK, "team:" + team + ", member:" + member)
 }
 
+func index(c echo.Context) error {
+	connection := db.GormConnect()
+	users := []db.User{}
+	connection.Limit(10).Find(&users)
+	return c.JSON(http.StatusCreated, users)
+}
+
 func save(c echo.Context) error {
+	connection := db.GormConnect()
 	u := new(db.User)
 	if err := c.Bind(u); err != nil {
 		return err
 	}
+	connection.Create(&u)
 	return c.JSON(http.StatusCreated, u)
 }
 
@@ -45,6 +54,7 @@ func runServer() {
 		return c.String(http.StatusOK, "Hello World!★★★★★")
 	})
 	e.GET("/users/:id", getUser)
+	e.GET("/users", index)
 	e.POST("/users", save)
 	e.GET("/show", show)
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))

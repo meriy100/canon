@@ -65,7 +65,7 @@ func GormConnect() *gorm.DB {
 
 
 type User struct {
-	Id int `json:"id"`
+	Id int `json:"id" gorm:"primary_key"`
 	Name  string `json:"name"`
 	Email string `json:"email"`
 }
