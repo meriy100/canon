@@ -6,6 +6,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"io/ioutil"
 	"os"
+	"time"
 )
 
 type ConnectionInfo struct {
@@ -63,11 +64,12 @@ func GormConnect() *gorm.DB {
 	return db
 }
 
-
 type User struct {
-	Id int `json:"id" gorm:"primary_key"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	ID uint `json: "id" gorm:"primary_key"`
+	Name  string `json:"name" gorm:"not null"`
+	Email string `json:"email" gorm:"not null; unique"`
+	CreatedAt time.Time `json:"createdAt" gorm:"not null"`
+	UpdatedAt time.Time `json:"updatedAt" gorm:"not null"`
 }
 
 func DropTables() {
