@@ -6,11 +6,31 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	//"github.com/jinzhu/gorm"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 type User struct {
-	Name  string `json:"name" xml:"name" form:"name" query:"name"`
-	Email string `json:"email" xml:"email" form:"email" query:"email"`
+	Id int `json:"id"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}
+
+func gormConnect() *gorm.DB {
+	DBMS     := "postgres"
+	USER     := "canon_user"
+	PASS     := "password"
+	HOST     := "localhost"
+	//PORT := ""
+	DBNAME   := "canon"
+
+	//CONNECT := "host=" + HOST + " port=" + PORT + " user=" + USER + "password=" + PASS + " dbname=" + DBNAME
+	CONNECT := "host=" + HOST + " user=" + USER + " password=" + PASS + " dbname=" + DBNAME + " sslmode=disable"
+	db,err := gorm.Open(DBMS, CONNECT)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	return db
 }
 
 func getUser(c echo.Context) error {
@@ -42,6 +62,8 @@ func port() int {
 }
 
 func main() {
+	db := gormConnect()
+	db.AutoMigrate(&User{})
 	port := port()
 	e := echo.New()
 	e.GET("/", func(c echo.Context) error {
@@ -51,4 +73,6 @@ func main() {
 	e.POST("/users", save)
 	e.GET("/show", show)
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))
+
+	defer db.Close()
 }

@@ -2,12 +2,23 @@
 
 
 [[projects]]
-  digest = "1:151bfbb1bc3287048f8c7dc7921151f6727191c641bbb077345e4624f9e19f9d"
+  digest = "1:a0216296da5c3191358b114fa8d2490477f5dff7380541551495b4f2a16989b3"
   name = "github.com/jinzhu/gorm"
-  packages = ["dialects/postgres"]
+  packages = [
+    ".",
+    "dialects/postgres",
+  ]
   pruneopts = "UT"
   revision = "81c17a7e2529c59efc4e74c5b32c1fb71fb12fa2"
   version = "v1.9.11"
+
+[[projects]]
+  digest = "1:01ed62f8f4f574d8aff1d88caee113700a2b44c42351943fa73cc1808f736a50"
+  name = "github.com/jinzhu/inflection"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "f5c5f50e6090ae76a29240b61ae2a90dd810112e"
+  version = "v1.0.0"
 
 [[projects]]
   digest = "1:1570c60b91bdc11c756cb256f03c11acf4637a5daa350d489c2e3e5667aa63d3"
@@ -129,6 +140,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/jinzhu/gorm",
     "github.com/jinzhu/gorm/dialects/postgres",
     "github.com/labstack/echo",
   ]
