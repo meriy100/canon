@@ -17,7 +17,7 @@ go get github.com/oxequa/realize
 ```
 
 ```
-go run server.go
+realize start
 ```
 
-http://localhost:3000
+http://localhost:1323
