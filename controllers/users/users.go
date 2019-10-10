@@ -1,6 +1,7 @@
 package users
 
 import (
+	"fmt"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
 	dbC "github.com/meriy100/canon/db"
@@ -47,6 +48,7 @@ func Create(c echo.Context) error {
 		return err
 	}
 	if err := db.Create(&u).Error; err != nil {
+		fmt.Println(err)
 		return err
 		//errorResponse := ErrorResponse{"Internal Server Error"}
 		//return c.JSON(http.StatusInternalServerError, errorResponse)

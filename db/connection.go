@@ -5,6 +5,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/meriy100/canon/models"
+	"github.com/qor/validations"
 	"io/ioutil"
 	"os"
 )
@@ -61,6 +62,8 @@ func GormConnect() *gorm.DB {
 	if err != nil {
 		panic(err.Error())
 	}
+	validations.RegisterCallbacks(db)
+
 	return db
 }
 
