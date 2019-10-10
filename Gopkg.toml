@@ -29,9 +29,6 @@
   go-tests = true
   unused-packages = true
 
-[[constraint]]
-  name = "github.com/labstack/echo"
-  version = "4.1.11"
 
 [[constraint]]
   name = "github.com/jinzhu/gorm"
@@ -40,3 +37,11 @@
 [[constraint]]
   name = "github.com/go-yaml/yaml"
   version = "2.2.4"
+
+[[constraint]]
+  name = "github.com/qor/validations"
+  version = "1.1.0"
+
+[[constraint]]
+  name = "github.com/labstack/echo"
+  version = "3.1.0"

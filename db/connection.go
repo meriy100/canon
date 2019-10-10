@@ -4,9 +4,10 @@ import (
 	"github.com/go-yaml/yaml"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/meriy100/canon/models"
+	"github.com/qor/validations"
 	"io/ioutil"
 	"os"
-	"time"
 )
 
 type ConnectionInfo struct {
@@ -61,28 +62,23 @@ func GormConnect() *gorm.DB {
 	if err != nil {
 		panic(err.Error())
 	}
-	return db
-}
+	validations.RegisterCallbacks(db)
 
-type User struct {
-	ID uint `json: "id" gorm:"primary_key"`
-	Name  string `json:"name" gorm:"not null"`
-	Email string `json:"email" gorm:"not null; unique"`
-	CreatedAt time.Time `json:"createdAt" gorm:"not null"`
-	UpdatedAt time.Time `json:"updatedAt" gorm:"not null"`
+	return db
 }
 
 func DropTables() {
 	db := GormConnect()
-	db.DropTableIfExists("users")
-
 	defer db.Close()
+
+	db.DropTableIfExists("users")
 }
 
 
 
 func Migration() {
 	db := GormConnect()
-	db.AutoMigrate(&User{})
 	defer db.Close()
+
+	db.AutoMigrate(&models.User{})
 }
