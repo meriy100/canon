@@ -47,12 +47,16 @@ func Create(c echo.Context) error {
 	if err := c.Bind(u); err != nil {
 		return err
 	}
+	ep, _ := models.UserPassHash(u.Password)
+	u.EncryptedPassword = ep
 	if err := db.Create(&u).Error; err != nil {
 		fmt.Println(err)
 		return err
 		//errorResponse := ErrorResponse{"Internal Server Error"}
 		//return c.JSON(http.StatusInternalServerError, errorResponse)
 	}
+	u.Password = ""
+	u.PasswordConfirmation = ""
 	return c.JSON(http.StatusOK, u)
 }
 
