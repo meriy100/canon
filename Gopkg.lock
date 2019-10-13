@@ -26,6 +26,30 @@
   version = "v2.2.4"
 
 [[projects]]
+  digest = "1:c79fb010be38a59d657c48c6ba1d003a8aa651fa56b579d959d74573b7dff8e1"
+  name = "github.com/gorilla/context"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "08b5f424b9271eedf6f9f0ce86cb9396ed337a42"
+  version = "v1.1.1"
+
+[[projects]]
+  digest = "1:e72d1ebb8d395cf9f346fd9cbc652e5ae222dd85e0ac842dc57f175abed6d195"
+  name = "github.com/gorilla/securecookie"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "e59506cc896acb7f7bf732d4fdf5e25f7ccd8983"
+  version = "v1.1.1"
+
+[[projects]]
+  digest = "1:172c862eabc72e90f461bcef223c49869628bec6d989386dfb03281ae3222148"
+  name = "github.com/gorilla/sessions"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "4355a998706e83fe1d71c31b07af94e34f68d74a"
+  version = "v1.2.0"
+
+[[projects]]
   digest = "1:a0216296da5c3191358b114fa8d2490477f5dff7380541551495b4f2a16989b3"
   name = "github.com/jinzhu/gorm"
   packages = [
@@ -54,6 +78,14 @@
   pruneopts = "UT"
   revision = "38772c686c76b501f94bd6cd5b77f5842e93b559"
   version = "v3.3.10"
+
+[[projects]]
+  digest = "1:431646838dda93dfb384c1010fca1bb0353c1ee030910d926bb64b32f1ba253a"
+  name = "github.com/labstack/echo-contrib"
+  packages = ["session"]
+  pruneopts = "UT"
+  revision = "7d9d9632a4aadf9b026436e43d5f96eca2d895a6"
+  version = "0.5.2"
 
 [[projects]]
   digest = "1:e8e65826d60fd82637fb9df06ecd651191b599f4a8f72b86362012f288778320"
@@ -178,9 +210,11 @@
   analyzer-version = 1
   input-imports = [
     "github.com/go-yaml/yaml",
+    "github.com/gorilla/sessions",
     "github.com/jinzhu/gorm",
     "github.com/jinzhu/gorm/dialects/postgres",
     "github.com/labstack/echo",
+    "github.com/labstack/echo-contrib/session",
     "github.com/labstack/echo/middleware",
     "github.com/qor/validations",
   ]
