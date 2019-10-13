@@ -59,8 +59,8 @@ func (pp PasswordPair) Validate(db *gorm.DB) {
 	PasswordPairValidate(pp, db)
 }
 
-func UserPassMach(hash, pw string) bool {
-	return bcrypt.CompareHashAndPassword([]byte(hash), []byte(pw)) == nil
+func (user User) PasswordMach(pw string) bool {
+	return bcrypt.CompareHashAndPassword([]byte(user.EncryptedPassword), []byte(pw)) == nil
 }
 
 func UserPassHash(pass string) (string, error){

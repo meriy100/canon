@@ -1,9 +1,12 @@
 package users
 
 import (
+	"errors"
 	"fmt"
+	"github.com/gorilla/sessions"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
+	"github.com/labstack/echo-contrib/session"
 	dbC "github.com/meriy100/canon/db"
 	"github.com/meriy100/canon/models"
 	"net/http"
@@ -11,6 +14,9 @@ import (
 )
 
 func Index(c echo.Context) error {
+	if _, err := authorizedUser(c); err != nil {
+		return echo.NewHTTPError(http.StatusForbidden)
+	}
 	db := dbC.GormConnect()
 	defer db.Close()
 
@@ -22,6 +28,9 @@ func Index(c echo.Context) error {
 }
 
 func Show(c echo.Context) error {
+	if _, err := authorizedUser(c); err != nil {
+		return echo.NewHTTPError(http.StatusForbidden)
+	}
 	db := dbC.GormConnect()
 	defer db.Close()
 
@@ -61,3 +70,25 @@ func Create(c echo.Context) error {
 }
 
 
+
+func authorizedUser(c echo.Context) (models.User, error) {
+	u := models.User{}
+	sess, _ := session.Get("session", c)
+	sess.Options = &sessions.Options{
+		Path:     "/",
+		MaxAge:   86400 * 7,
+		HttpOnly: true,
+	}
+	db := dbC.GormConnect()
+	defer db.Close()
+	userId, err := strconv.Atoi(sess.Values["currentUserId"].(string))
+	if err != nil {
+		return u, errors.New("Session is empty")
+	}
+	u.ID = uint(userId)
+	if err := db.Find(&u).Error; err != nil {
+		fmt.Println(err)
+		return u, errors.New("User is not valid")
+	}
+	return u, nil
+}
