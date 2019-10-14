@@ -211,6 +211,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/dgrijalva/jwt-go",
     "github.com/go-yaml/yaml",
     "github.com/gorilla/sessions",
     "github.com/jinzhu/gorm",
