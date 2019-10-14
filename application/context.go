@@ -41,7 +41,11 @@ func(c *Context) GetSession() *sessions.Session {
 
 func (c Context) AuthorizedUser() (models.User, error) {
 	u := models.User{}
-	userId, err := strconv.Atoi(c.GetSession().Values["currentUserId"].(string))
+	value := c.GetSession().Values["currentUserId"]
+	if value == nil {
+		return u, errors.New("Session is empty")
+	}
+	userId, err := strconv.Atoi(value.(string))
 	if err != nil {
 		return u, errors.New("Session is empty")
 	}
