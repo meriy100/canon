@@ -37,8 +37,9 @@ func runServer() {
 	  Format: "[${method}] ${uri} : ${status} for ${time_rfc3339_nano}\n",
 	}))
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:8080", "https://labstack.net"},
+		AllowOrigins: []string{"http://localhost:8080"},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		AllowCredentials: true,
 	}))
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 	router.Assign(e)

@@ -27,7 +27,7 @@ func(c *Context) GetSession() *sessions.Session {
 	if c.Session != nil {
 		return c.Session
 	}
-	sess, _ := session.Get("session", c)
+	sess, _ := session.Get("canon_session", c)
 	sess.Options = &sessions.Options{
 		Path:     "/",
 		MaxAge:   86400 * 7,

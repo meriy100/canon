@@ -12,6 +12,7 @@ import (
 
 func Index(c *application.Context) error {
 	if _, err := c.AuthorizedUser(); err != nil {
+		fmt.Println(err)
 		return echo.NewHTTPError(http.StatusForbidden)
 	}
 
