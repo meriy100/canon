@@ -27,6 +27,7 @@ func runServer() {
 	db := dbC.GormConnect()
 	port := port()
 	e := echo.New()
+	db.LogMode(true)
 	e.Use(func(h echo.HandlerFunc) echo.HandlerFunc {
         return func(c echo.Context) error {
             return h(&application.Context{c, nil, db })
