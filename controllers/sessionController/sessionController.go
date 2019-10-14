@@ -1,11 +1,12 @@
 package sessionController
 
 import (
+	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo"
 	"github.com/meriy100/canon/application"
 	"github.com/meriy100/canon/models"
 	"net/http"
-	"strconv"
+	"time"
 )
 
 type SessionForm struct {
@@ -23,25 +24,20 @@ func Create(c *application.Context) error {
 	if !u.PasswordMach(sf.Password) {
 		return c.String(http.StatusUnprocessableEntity, "missed email or password")
 	}
+	claims := &application.JwtCustomClaims{
+		int(u.ID),
+		jwt.StandardClaims{ ExpiresAt: time.Now().Add(time.Hour * 72).Unix() },
+	}
 
-	c.GetSession().Values["currentUserId"] = strconv.Itoa(int(u.ID))
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	if err := c.GetSession().Save(c.Request(), c.Response()); err != nil {
+	// Generate encoded token and send it as response.
+	t, err := token.SignedString([]byte("secret"))
+	if err != nil {
 		return err
 	}
 
-	return c.String(http.StatusOK, "Logined")
-}
-
-
-func Destroy(c *application.Context) error {
-	if _, err :=  c.AuthorizedUser(); err != nil {
-		return echo.NewHTTPError(http.StatusForbidden)
-	}
-	c.GetSession().Values["currentUserId"] = ""
-	if err := c.GetSession().Save(c.Request(), c.Response()); err != nil {
-		return err
-	}
-
-	return c.String(http.StatusOK, "Logouted")
+	return c.JSON(http.StatusOK, echo.Map{
+		"token": t,
+	})
 }

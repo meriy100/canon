@@ -3,9 +3,7 @@ package main
 import (
 	"fmt"
 	dbC "github.com/meriy100/canon/db"
-	"github.com/gorilla/sessions"
 	"github.com/labstack/echo"
-	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/middleware"
 	"github.com/meriy100/canon/application"
 	"github.com/meriy100/canon/db"
@@ -30,7 +28,7 @@ func runServer() {
 	db.LogMode(true)
 	e.Use(func(h echo.HandlerFunc) echo.HandlerFunc {
         return func(c echo.Context) error {
-            return h(&application.Context{c, nil, db })
+            return h(&application.Context{c, db })
         }
     })
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
@@ -38,10 +36,9 @@ func runServer() {
 	}))
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"http://localhost:8080"},
-		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 		AllowCredentials: true,
 	}))
-	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 	router.Assign(e)
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))
 	defer db.Close()
