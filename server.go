@@ -32,6 +32,9 @@ func runServer() {
             return h(&application.Context{c, nil, db })
         }
     })
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+	  Format: "[${method}] ${uri} : ${status} for ${time_rfc3339_nano}\n",
+	}))
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"http://localhost:8080", "https://labstack.net"},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
