@@ -1,13 +1,14 @@
 package users
 
 import (
-	"fmt"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
 	"github.com/meriy100/canon/application"
 	"github.com/meriy100/canon/models"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 func Index(c *application.Context) error {
@@ -49,12 +50,22 @@ func Create(c *application.Context) error {
 	ep, _ := models.UserPassHash(u.Password)
 	u.EncryptedPassword = ep
 	if err := c.DB.Create(&u).Error; err != nil {
-		fmt.Println(err)
 		return err
-		//errorResponse := ErrorResponse{"Internal Server Error"}
-		//return c.JSON(http.StatusInternalServerError, errorResponse)
 	}
-	u.Password = ""
-	u.PasswordConfirmation = ""
-	return c.JSON(http.StatusOK, u)
+
+	claims := &application.JwtCustomClaims{
+		int(u.ID),
+		jwt.StandardClaims{ ExpiresAt: time.Now().Add(time.Hour * 72).Unix() },
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	t, err := token.SignedString([]byte("secret"))
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, echo.Map{
+		"token": t,
+	})
 }

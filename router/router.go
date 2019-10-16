@@ -18,6 +18,6 @@ func Assign(e *echo.Echo) {
 	g.GET("users", application.CallHandler(users.Index))
 	g.GET("users/:id", application.CallHandler(users.Show))
 
-	e.POST("/users", application.CallHandler(users.Create))
+	e.POST("/sign_up", application.CallHandler(users.Create))
 	e.POST("/session", application.CallHandler(sessionController.Create))
 }
