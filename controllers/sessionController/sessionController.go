@@ -4,6 +4,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo"
 	"github.com/meriy100/canon/application"
+	"github.com/meriy100/canon/configs"
 	"github.com/meriy100/canon/models"
 	"net/http"
 	"time"
@@ -32,8 +33,7 @@ func Create(c *application.Context) error {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	// Generate encoded token and send it as response.
-    // TODO : use secret variable
-	t, err := token.SignedString([]byte("secret"))
+	t, err := token.SignedString(configs.GetSecretKey())
 	if err != nil {
 		return err
 	}

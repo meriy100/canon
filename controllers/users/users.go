@@ -5,6 +5,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
 	"github.com/meriy100/canon/application"
+	"github.com/meriy100/canon/configs"
 	"github.com/meriy100/canon/models"
 	"net/http"
 	"strconv"
@@ -60,7 +61,7 @@ func Create(c *application.Context) error {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	t, err := token.SignedString([]byte("secret"))
+	t, err := token.SignedString(configs.GetSecretKey())
 	if err != nil {
 		return err
 	}
