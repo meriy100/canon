@@ -21,10 +21,6 @@ type Context struct {
 }
 
 
-func (c Context) Foo() {
-	fmt.Println("foo")
-}
-
 func (c Context) AuthorizedUser() (models.User, error) {
 	u := models.User{}
 	user := c.Get("user").(*jwt.Token)
@@ -46,7 +42,3 @@ func CallHandler(h callFunc) echo.HandlerFunc {
         return h(c.(*Context))
     }
 }
-
-
-
-

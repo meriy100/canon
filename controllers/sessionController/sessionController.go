@@ -32,6 +32,7 @@ func Create(c *application.Context) error {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	// Generate encoded token and send it as response.
+    // TODO : use secret variable
 	t, err := token.SignedString([]byte("secret"))
 	if err != nil {
 		return err
