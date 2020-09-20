@@ -14,9 +14,9 @@ type UserForm struct {
 
 type User struct {
 	ID uint `json: "id" gorm:"primary_key"`
-	Name  string `json:"name" gorm:"not null"`
-	Email string `json:"email" gorm:"not null; unique"`
-	EncryptedPassword string `json:"-" gorm:"not null;"`
+	Name  string `json:"name" gorm:"type: varchar(255) not null"`
+	Email string `json:"email" gorm:"type: varchar(255) not null; unique"`
+	EncryptedPassword string `json:"-" gorm:"type: varchar(255) not null;"`
 	CreatedAt time.Time `json:"createdAt" gorm:"not null"`
 	UpdatedAt time.Time `json:"updatedAt" gorm:"not null"`
 	Password string `json:"password,omitempty" gorm:"-"'`

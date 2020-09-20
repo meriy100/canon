@@ -72,6 +72,7 @@ func DropTables() {
 	defer db.Close()
 
 	db.DropTableIfExists("users")
+	db.DropTableIfExists("posts")
 }
 
 
@@ -81,4 +82,5 @@ func Migration() {
 	defer db.Close()
 
 	db.AutoMigrate(&models.User{})
+	db.AutoMigrate(&models.Post{})
 }
