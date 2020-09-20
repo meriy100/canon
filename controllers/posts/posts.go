@@ -8,8 +8,7 @@ import (
 )
 
 type Meta struct {
-	Page uint `json:"page"`
-	Per uint `json:"per"`
+	models.Pagination
 }
 
 type Success struct {
@@ -22,9 +21,27 @@ func Index(c *application.Context) error {
 		return echo.NewHTTPError(http.StatusForbidden)
 	}
 
-	posts := []models.Post{}
-	if err := c.DB.Limit(10).Find(&posts).Error; err != nil {
+	pagination := new(models.Pagination)
+
+	if err := c.Bind(pagination); err != nil {
 		return err
 	}
-	return c.JSON(http.StatusOK, Success{ Data: posts, Meta: Meta{ Page: 1, Per: 10 } })
+
+	var count uint
+	posts := []models.Post{}
+	if err := c.DB.Model(&models.Post{}).Count(&count).Error; err != nil {
+		return err
+	}
+
+	if err := c.DB.Limit(pagination.Per).Offset(models.ToOffset(pagination)).Find(&posts).Error; err != nil {
+		return err
+	}
+	return c.JSON(
+		http.StatusOK, Success{
+			Data: posts,
+			Meta: Meta{
+				models.Pagination{
+					Page: 1,
+					Per: 10,
+					Count: count } } } )
 }
