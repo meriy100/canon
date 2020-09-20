@@ -5,6 +5,7 @@ import (
 	"github.com/labstack/echo/middleware"
 	"github.com/meriy100/canon/application"
 	"github.com/meriy100/canon/configs"
+	"github.com/meriy100/canon/controllers/posts"
 	"github.com/meriy100/canon/controllers/sessionController"
 	"github.com/meriy100/canon/controllers/users"
 )
@@ -19,6 +20,8 @@ func Assign(e *echo.Echo) {
 	g.GET("users", application.CallHandler(users.Index))
 	g.GET("users/:id", application.CallHandler(users.Show))
 
-	e.POST("/sign_up", application.CallHandler(users.Create))
+	g.GET("posts", application.CallHandler(posts.Index))
+
+	//e.POST("/sign_up", application.CallHandler(users.Create))
 	e.POST("/session", application.CallHandler(sessionController.Create))
 }
